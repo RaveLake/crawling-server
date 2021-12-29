@@ -1,10 +1,12 @@
-from flask import Flask, request
+import os
+import sys
 
+from flask import request
+
+from src import app
 from src.dto.request import NoticeRefreshRequest
 from src.dto.response import get_200_response
 from src.service.notice_service import crawling_notices
-
-app = Flask(__name__)
 
 
 @app.route('/operation/refresh/notice', methods=('POST',))
@@ -20,4 +22,5 @@ def get_notices():
 
 
 if __name__ == '__main__':
+    sys.path.append(os.path.dirname(os.path.abspath(__file__)))
     app.run()

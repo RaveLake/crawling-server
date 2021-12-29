@@ -10,7 +10,7 @@ from scrapy.utils.response import get_base_url
 from scrapy_splash import SplashRequest
 
 from src.entity.BoardData import BoardData
-from src.service.board_data_service import get_board_data, get_active_board_datas
+from src.service.board_data_service import get_board_data
 
 '''
 1. 각 class 구동시 필요한 import 구문은 class 안에 있어야 함.
@@ -279,44 +279,6 @@ class DefaultSpider(scrapy.Spider):
         # for info in self.scraped_info_data:
         #     print(f"Success! {self.name} {info['date']} {info['title']}")
         self.output_callback(self.scraped_info_data)
-
-
-page_num = 1
-manual_spiders = {
-    'knudorm'
-}
-board_datas = get_active_board_datas()
-# Spider Class 자동 생성
-for board_data in board_datas:
-    if 'test' not in board_data.code and board_data.code not in manual_spiders:
-        txt = f"""
-class {board_data.code.capitalize()}Spider(DefaultSpider):
-    def __init__(self, **kwargs):
-        self.try_time = 0
-
-        self.name = board_data.name
-        if board_data.key_name_page:
-            url:str = board_data.uri_root
-            if board_data.key_name_page == 'restful':
-                url_page = url + '/' + '%d'
-            elif board_data.key_name_page == 'offset':
-                url_page = url
-            else:
-                url_page = url + '&' + board_data.key_name_page + '=%d'
-            if board_data.key_name_page == 'offset':
-                urls = [url_page % ((i-1)*20) for i in range(1, page_num+1)]
-            else:
-                urls = [url_page % i for i in range(1, page_num+1)]
-            self.start_urls = urls
-        else:
-            self.start_urls = [board_data.uri_root]
-
-        self.output_callback = kwargs.get('args').get('callback')
-        self.scraped_info_data = []
-        super().__init__(**kwargs)
-        super().set_args(board_data)
-"""
-        exec(compile(txt, "<string>", "exec"))
 
 
 class KnudormSpider(DefaultSpider):

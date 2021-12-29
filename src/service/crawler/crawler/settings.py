@@ -14,8 +14,8 @@ LOG_FILE = 'scrapy.log'
 
 BOT_NAME = 'crawler'
 
-SPIDER_MODULES = ['service.crawler.crawler.spiders']
-NEWSPIDER_MODULE = 'service.crawler.crawler.spiders'
+SPIDER_MODULES = ['src.service.crawler.crawler.spiders']
+NEWSPIDER_MODULE = 'src.service.crawler.crawler.spiders'
 
 # FEED_FORMAT = "csv"
 # FEED_URI = "naver_news.csv"
