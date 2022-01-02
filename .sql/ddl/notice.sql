@@ -3,7 +3,7 @@ create table notice
 (
     id         bigint auto_increment
         primary key,
-    bid        bigint               not null,
+    bid        varchar(20)          not null,
     code       varchar(30)          not null,
     is_fixed   tinyint(1) default 0 not null,
     title      varchar(200)         not null,
