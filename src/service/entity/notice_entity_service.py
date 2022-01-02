@@ -18,7 +18,7 @@ def find_all_by_code(code: str) -> List[Notice]:
 def save_notices(notices: List[Notice]):
     push_target = defaultdict(list)
     for _notice in notices:
-        notice, created = db.get_or_create(session, _notice, bid=_notice.bid)
+        notice, created = db.get_or_create(session, _notice, bid=_notice.bid, code=_notice.code)
 
         # created = True: DB에 저장된 같은 데이터가 없음 (Create)
         # created = False: DB에 저장된 같은 데이터가 있음 (Get)
