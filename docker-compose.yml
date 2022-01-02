@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+    splash:
+        restart: always
+        image: scrapinghub/splash:3.5.0
+        container_name: splash-flask-crawling-server
+        ports:
+            - "8050:8050"
+        # logging:
+        #     driver: none

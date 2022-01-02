@@ -4,6 +4,6 @@ from typing import List
 
 @dataclass
 class NoticeRefreshRequest:
-    targets: List
+    targets: List[str]
     all: bool = False
     page: int = 1

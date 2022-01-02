@@ -15,6 +15,7 @@ def get_notices():
     notice_refresh_request = NoticeRefreshRequest(
         all=requested_data.get('all'),
         targets=requested_data.get('targets'),
+        page=requested_data.get('page'),
     )
     crawling_notices(notice_refresh_request)
 

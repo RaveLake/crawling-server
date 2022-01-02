@@ -1,4 +1,4 @@
-from typing import *
+from typing import List, Tuple
 
 from src.entity.BoardData import BoardData
 from src.service.board_data_service import get_active_board_datas, get_board_data
@@ -9,12 +9,14 @@ manual_spiders = {
     'knudorm'
 }
 board_datas = get_active_board_datas()
+board_datas_dic = {board_data.code: board_data for board_data in board_datas}
 # Spider Class 자동 생성
 for board_data in board_datas:
     if 'test' not in board_data.code and board_data.code not in manual_spiders:
         txt = f"""
 class {board_data.code.capitalize()}Spider(DefaultSpider):
     def __init__(self, **kwargs):
+        board_data = board_datas_dic['{board_data.code}']
         self.try_time = 0
 
         self.name = board_data.name
@@ -40,3 +42,27 @@ class {board_data.code.capitalize()}Spider(DefaultSpider):
         super().set_args(board_data)
 """
         exec(compile(txt, "<string>", "exec"))
+
+
+class KnudormSpider(DefaultSpider):
+    def __init__(self, **kwargs):
+        board_data: BoardData = get_board_data('knudorm')
+        self.try_time = 0
+        self.name = board_data.name
+        self.start_urls = [board_data.uri_root]
+        self.output_callback = kwargs.get('args').get('callback')
+        self.scraped_info_data = []
+        super().__init__(**kwargs)
+        super().set_args(board_data)
+
+    # Override
+    # Link 객체에서 url과 id 추출
+    def split_id_and_link(self, links: List[str]) -> Tuple[List[str], List[str]]:
+        ids = []
+        urls = []
+        for link in links:
+            id = ''.join(filter(str.isdigit, link))
+            ids.append(id)
+            urls.append(f'https://knudorm.kangwon.ac.kr/dorm/bbs/bbsView.knu?newPopup=true&articleId={id}')
+        return ids, urls
+

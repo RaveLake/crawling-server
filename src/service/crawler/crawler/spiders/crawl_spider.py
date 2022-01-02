@@ -108,10 +108,10 @@ class DefaultSpider(scrapy.Spider):
                 if url[i] in ('&', '?'):
                     break
             id = url[idx:i]
-            if len(id) > 20:
+            if not id.isnumeric():
                 seed = id.encode('utf-8')
-                id = zlib.adler32(seed)
-            ids.append(f'{self.name}-{id}')
+                id = str(zlib.adler32(seed))
+            ids.append(id)
         return ids, links
 
     # date 형식에 맞게 조정
@@ -171,10 +171,12 @@ class DefaultSpider(scrapy.Spider):
     # Override
     def start_requests(self):
         for url in self.start_urls:
-            yield SplashRequest(url, self.parse,
-                                endpoint='render.html',
-                                args={'wait': 0.5},
-                                )
+            yield SplashRequest(
+                url=url,
+                callback=self.parse,
+                endpoint='render.html',
+                args={'wait': 0.5},
+            )
 
     # Override
     def parse(self, response):
@@ -253,8 +255,8 @@ class DefaultSpider(scrapy.Spider):
         for id, is_fixed, title, link, date, author, reference in zip(
                 ids, is_fixeds, titles, links, dates, authors, references):
             scraped_info = {
-                'id': id,
-                'site': self.model.lower(),
+                'bid': id,
+                'code': self.model.lower(),
                 'is_fixed': is_fixed,
                 'title': title,
                 'link': link,
@@ -279,26 +281,3 @@ class DefaultSpider(scrapy.Spider):
         # for info in self.scraped_info_data:
         #     print(f"Success! {self.name} {info['date']} {info['title']}")
         self.output_callback(self.scraped_info_data)
-
-
-class KnudormSpider(DefaultSpider):
-    def __init__(self, **kwargs):
-        board_data: BoardData = get_board_data('knudorm')
-        self.try_time = 0
-        self.name = board_data.name
-        self.start_urls = [board_data.uri_root]
-        self.output_callback = kwargs.get('args').get('callback')
-        self.scraped_info_data = []
-        super().__init__(**kwargs)
-        super().set_args(board_data)
-
-    # Override
-    # Link 객체에서 url과 id 추출
-    def split_id_and_link(self, links: List[str]) -> Tuple[List[str], List[str]]:
-        ids = []
-        urls = []
-        for link in links:
-            id = ''.join(filter(str.isdigit, link))
-            ids.append(f'{self.name}-{id}')
-            urls.append(f'https://knudorm.kangwon.ac.kr/dorm/bbs/bbsView.knu?newPopup=true&articleId={id}')
-        return ids, urls

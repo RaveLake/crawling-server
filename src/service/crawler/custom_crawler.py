@@ -1,7 +1,8 @@
 import os
 from typing import Dict, List
 
-from scrapy.crawler import CrawlerProcess
+from twisted.internet import reactor
+from scrapy.crawler import CrawlerProcess, CrawlerRunner
 from scrapy.settings import Settings
 
 from config.develop_config import SCRAPY_SETTINGS_MODULE
@@ -27,7 +28,8 @@ class CustomCrawler:
             self,
             spider: object,
             code: str,
-            return_dic: Dict) -> Dict:
+            return_dic: Dict
+    ):
         process = CrawlerProcess(get_scrapy_settings())
         crawler = process.create_crawler(spider)
         process.crawl(crawler, args={'callback': self._yield_output})

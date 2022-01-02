@@ -1,7 +1,7 @@
 from typing import List
 
 from src.entity.BoardData import BoardData
-from src.service.entity.BoardDataEntityService import find_all_by_crawling_status, find_by_code
+from src.service.entity.board_data_entity_service import find_all_by_crawling_status, find_by_code
 
 
 def get_active_codes() -> List[str]:

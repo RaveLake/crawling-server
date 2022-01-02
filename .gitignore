@@ -2,6 +2,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/python,flask,pycharm+all
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,flask,pycharm+all
 
+### Custom ###
+.DS_Store
+
 ### Flask ###
 instance/*
 !instance/.gitignore
