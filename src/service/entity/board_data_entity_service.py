@@ -1,6 +1,6 @@
 from typing import List
 
-from config.database import session
+from src.config.database import session
 from src.entity.BoardData import BoardData
 
 

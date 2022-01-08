@@ -1,11 +1,10 @@
 import os
-from typing import Dict, List
+from typing import Dict
 
-from twisted.internet import reactor
-from scrapy.crawler import CrawlerProcess, CrawlerRunner
+from scrapy.crawler import CrawlerProcess
 from scrapy.settings import Settings
 
-from config.develop_config import SCRAPY_SETTINGS_MODULE
+from src.config.config import SCRAPY_SETTINGS_MODULE
 
 
 def get_scrapy_settings():

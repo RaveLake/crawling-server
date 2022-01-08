@@ -1,7 +1,7 @@
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker
 
-from config.develop_config import DATABASE_URI
+from src.config.config import DATABASE_URI
 from src.entity.BoardData import BoardData
 from src.entity.Notice import Notice
 

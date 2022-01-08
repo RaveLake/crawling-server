@@ -32,3 +32,5 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_REPONAME }}:latest
+        build-args: |
+          FLASK_DATABASE_URI=${{ secrets.FLASK_DATABASE_URI }}
