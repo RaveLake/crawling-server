@@ -2,7 +2,7 @@ import logging
 from collections import defaultdict
 from typing import List
 
-from src.config.database import session
+from src.config.database import Session
 from src.entity.Notice import Notice
 from src.util import db
 
@@ -10,12 +10,12 @@ from src.util import db
 logger = logging.getLogger()
 
 
-def find_all_by_code(code: str) -> List[Notice]:
+def find_all_by_code(session, code: str) -> List[Notice]:
     query_result = session.query(Notice)
     return query_result.filter_by(code=code).all()
 
 
-def save_notices(notices: List[Notice]):
+def save_notices(session, notices: List[Notice]):
     push_target = defaultdict(list)
     for _notice in notices:
         notice, created = db.get_or_create(session, _notice, bid=_notice.bid, code=_notice.code)
@@ -29,4 +29,3 @@ def save_notices(notices: List[Notice]):
         else:
             if notice.is_fixed != _notice.is_fixed:
                 session.query(Notice).filter(Notice.bid == _notice.bid).update({'is_fixed': _notice.is_fixed})
-    session.commit()

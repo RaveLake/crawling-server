@@ -1,14 +1,17 @@
 from typing import List, Tuple
 
+from src.config.database import Session
 from src.entity.BoardData import BoardData
 from src.service.board_data_service import get_active_board_datas, get_board_data
 from src.service.crawler.crawler.spiders.crawl_spider import DefaultSpider
+from src.util.db import fetch_entity, fetch_entities
 
 page_num = 1
 manual_spiders = {
     'knudorm'
 }
-board_datas = get_active_board_datas()
+with Session.begin() as session:
+    board_datas = fetch_entities(get_active_board_datas(session))
 board_datas_dic = {board_data.code: board_data for board_data in board_datas}
 # Spider Class 자동 생성
 for board_data in board_datas:
@@ -46,7 +49,7 @@ class {board_data.code.capitalize()}Spider(DefaultSpider):
 
 class KnudormSpider(DefaultSpider):
     def __init__(self, **kwargs):
-        board_data: BoardData = get_board_data('knudorm')
+        board_data: BoardData = fetch_entity(get_board_data(session, 'knudorm'))
         self.try_time = 0
         self.name = board_data.name
         self.start_urls = [board_data.uri_root]

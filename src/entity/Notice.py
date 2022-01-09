@@ -1,9 +1,6 @@
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Date, Boolean, BIGINT, DateTime, func
 
-# from crawling.src.data import data
-
-Base = declarative_base()
+from src.entity import Base
 
 
 class Notice(Base):
@@ -36,35 +33,3 @@ class Notice(Base):
 
     def __str__(self):
         return self.title
-
-
-"""
-class Main(Notice):
-    pass
-"""
-# 위와 같은 형식의 모델이 data로부터 자동 생성
-# for key, item in data.items():
-#     txt = f"""
-# class {key.capitalize()}(Notice):
-#     def __repr__(self):
-#         return "<{key.capitalize()}(
-#             id='%s',
-#             site='%s',
-#             is_fixed=%s,
-#             title=%s,
-#             link=%s,
-#             date=%s,
-#             author=%s,
-#             reference=%s
-#         )>" % (
-#             self.id,
-#             self.site,
-#             self.is_fixed,
-#             self.title,
-#             self.link,
-#             self.date,
-#             self.author,
-#             self.reference
-#         )
-# """
-#     exec(compile(txt, "<string>", "exec"))

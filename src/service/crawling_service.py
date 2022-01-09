@@ -34,6 +34,6 @@ def get_spider(code) -> object:
     return eval(f"spiders.{code.capitalize()}Spider")
 
 
-def get_all_spider() -> List[object]:
+def get_all_spider(session) -> List[object]:
     spiders
-    return [eval(f"spiders.{code.capitalize()}Spider") for code in get_active_codes()]
+    return [eval(f"spiders.{code.capitalize()}Spider") for code in get_active_codes(session)]

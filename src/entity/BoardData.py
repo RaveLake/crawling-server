@@ -1,7 +1,6 @@
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Date, Boolean, BIGINT
 
-Base = declarative_base()
+from src.entity import Base
 
 
 class BoardData(Base):
@@ -35,6 +34,7 @@ class BoardData(Base):
             uri_is_fixed,
             uri_link,
             uri_title,
+            crawling_status='00',
             key_name_page=None,
             uri_date=None,
             uri_author=None,
@@ -42,6 +42,7 @@ class BoardData(Base):
             uri_inside_date=None,
             notice_drop_num=None,
     ):
+        self.crawling_status = crawling_status
         self.code = code
         self.path = path
         self.name = name
@@ -60,19 +61,3 @@ class BoardData(Base):
 
     def __str__(self):
         return self.name + "-" + self.code
-
-    # code            varchar(30)  not null,
-    # path            varchar(30)  not null,
-    # name            varchar(30)  not null,
-    # uri_root        varchar(500) not null,
-    # model           varchar(30)  null,
-    # key_name_bid    varchar(30)  not null,
-    # uri_is_fixed    varchar(500) not null,
-    # key_name_page   varchar(30)  null,
-    # uri_link        varchar(500) not null,
-    # uri_title       varchar(500) not null,
-    # uri_date        varchar(500) null,
-    # uri_author      varchar(500) null,
-    # uri_reference   varchar(500) null,
-    # uri_inside_date varchar(500) null,
-    # board_drop_num  int          null
