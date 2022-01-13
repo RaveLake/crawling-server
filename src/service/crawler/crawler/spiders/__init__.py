@@ -1,6 +1,6 @@
 from typing import List, Tuple
 
-from src.config.database import Session
+from src.config.database import session_scope
 from src.entity.BoardData import BoardData
 from src.service.board_data_service import get_active_board_datas, get_board_data
 from src.service.crawler.crawler.spiders.crawl_spider import DefaultSpider
@@ -10,8 +10,8 @@ page_num = 1
 manual_spiders = {
     'knudorm'
 }
-with Session.begin() as session:
-    board_datas = fetch_entities(get_active_board_datas(session))
+with session_scope() as session:
+    board_datas = fetch_entities(get_active_board_datas())
 board_datas_dic = {board_data.code: board_data for board_data in board_datas}
 # Spider Class 자동 생성
 for board_data in board_datas:

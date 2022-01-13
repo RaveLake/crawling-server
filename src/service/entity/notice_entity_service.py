@@ -25,7 +25,6 @@ def save_notices(session, notices: List[Notice]):
         if created:
             push_target[notice.code].append(notice.title)
             logger.info(f"New data inserted! {notice.code}:{notice.title}")
-            print(f"New data inserted! {notice.code}:{notice.title}")
         else:
             if notice.is_fixed != _notice.is_fixed:
                 session.query(Notice).filter(Notice.bid == _notice.bid).update({'is_fixed': _notice.is_fixed})

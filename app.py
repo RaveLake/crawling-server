@@ -1,3 +1,4 @@
+import logging
 import os
 import sys
 import threading
@@ -5,16 +6,19 @@ import threading
 from flask import request
 
 from src import app
-from src.config.database import Session
+from src.config.database import session_scope
 from src.dto.request import NoticeRefreshRequest
 from src.dto.response import get_200_response
 from src.entity.Status import Status
 from src.service.notice_service import crawling_notices
 
 
+logger = logging.getLogger()
+
+
 @app.route('/status', methods=('GET',))
 def server_status():
-    with Session.begin() as session:
+    with session_scope() as session:
         status = session.query(Status).first()
         return status.status
 
@@ -27,9 +31,10 @@ def get_notices():
         targets=requested_data.get('targets'),
         page=requested_data.get('page'),
     )
-    with Session.begin() as session:
-        thread = threading.Thread(target=crawling_notices, args=(session, notice_refresh_request,))
-        thread.start()
+    logger.debug("crawling thread creating")
+    thread = threading.Thread(target=crawling_notices, args=(notice_refresh_request,))
+    thread.start()
+    logger.debug("crawling thread started")
 
     return get_200_response(notice_refresh_request)
 
