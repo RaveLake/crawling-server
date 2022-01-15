@@ -11,7 +11,7 @@ manual_spiders = {
     'knudorm'
 }
 with session_scope() as session:
-    board_datas = fetch_entities(get_active_board_datas())
+    board_datas = fetch_entities(get_active_board_datas(session))
 board_datas_dic = {board_data.code: board_data for board_data in board_datas}
 # Spider Class 자동 생성
 for board_data in board_datas:

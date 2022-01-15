@@ -10,18 +10,17 @@ from scrapy.utils.response import get_base_url
 from scrapy_splash import SplashRequest
 
 from src.entity.BoardData import BoardData
-from src.service.board_data_service import get_board_data
-
-'''
-1. 각 class 구동시 필요한 import 구문은 class 안에 있어야 함.
- (scrapy에서 class만 갖고 crawling 하기 때문에 class 밖에 적어 놓으면 인식 불가.)
-2. 비고(reference)가 없는 게시판이라면 xpath를 None으로 지정할 것.
-3. set_args() 함수의 id 인자는 각 게시판에서 게시물을 구별할때 사용되는 키 값.
- (ex cse 게시판은 BID 사용, main 게시판은 nttNo 사용)
-'''
 
 
 class DefaultSpider(scrapy.Spider):
+    """
+    1. 각 class 구동시 필요한 import 구문은 class 안에 있어야 함.
+     (scrapy에서 class만 갖고 crawling 하기 때문에 class 밖에 적어 놓으면 인식 불가.)
+    2. 비고(reference)가 없는 게시판이라면 xpath를 None으로 지정할 것.
+    3. set_args() 함수의 id 인자는 각 게시판에서 게시물을 구별할때 사용되는 키 값.
+     (ex cse 게시판은 BID 사용, main 게시판은 nttNo 사용)
+    """
+
     handle_httpstatus_list = [404]
 
     # 데이터 검증

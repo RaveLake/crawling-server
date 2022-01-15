@@ -15,6 +15,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN mkdir /app/log
 COPY config/nginx.flask.conf /etc/nginx/conf.d/flask.conf
+COPY config/uwsgi.ini /app/uwsgi.ini
 COPY ./app.py /app/main.py
 COPY ./src/ /app/src/
 

@@ -4,13 +4,12 @@ from typing import List
 
 from src.service.board_data_service import get_active_codes
 from src.service.crawler.crawler import spiders
-from src.service.crawler.crawler.spiders import crawl_spider
 from src.service.crawler.custom_crawler import CustomCrawler
 
 
 def crawling_task(page_num, code):
     spider = get_spider(code)
-    crawl_spider.page_num = page_num
+    spiders.page_num = page_num
     manager = Manager()
     return_dic = manager.dict()
     cc = CustomCrawler()
@@ -30,10 +29,8 @@ def crawling_task(page_num, code):
 
 
 def get_spider(code) -> object:
-    spiders
     return eval(f"spiders.{code.capitalize()}Spider")
 
 
 def get_all_spider(session) -> List[object]:
-    spiders
     return [eval(f"spiders.{code.capitalize()}Spider") for code in get_active_codes(session)]

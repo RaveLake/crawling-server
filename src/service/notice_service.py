@@ -1,5 +1,7 @@
 import logging
 
+from uwsgidecorators import thread
+
 from src.config.database import session_scope
 from src.dto.request import NoticeRefreshRequest
 from src.mapper import notice_mapper
@@ -10,6 +12,7 @@ from src.service.entity import notice_entity_service
 logger = logging.getLogger()
 
 
+@thread
 def crawling_notices(request: NoticeRefreshRequest):
     logger.debug("crawling_notices start")
     if request.all:

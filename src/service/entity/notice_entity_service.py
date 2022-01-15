@@ -2,7 +2,6 @@ import logging
 from collections import defaultdict
 from typing import List
 
-from src.config.database import Session
 from src.entity.Notice import Notice
 from src.util import db
 

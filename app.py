@@ -1,7 +1,6 @@
 import logging
 import os
 import sys
-import threading
 
 from flask import request
 
@@ -31,9 +30,7 @@ def get_notices():
         targets=requested_data.get('targets'),
         page=requested_data.get('page'),
     )
-    logger.debug("crawling thread creating")
-    thread = threading.Thread(target=crawling_notices, args=(notice_refresh_request,))
-    thread.start()
+    crawling_notices(notice_refresh_request)
     logger.debug("crawling thread started")
 
     return get_200_response(notice_refresh_request)
